@@ -12,20 +12,20 @@
     <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 space-y-6">
 
         <!-- Title -->
-        <h1 class="text-3xl font-bold text-gray-800 text-center">Sell Your Product</h1>
+        <h1 class="text-3xl font-bold text-gray-800 text-center">Post Your Properties</h1>
 
         <!-- Product Form -->
         <form action="{{route('store.post')}}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             <!-- Title Input -->
             <div>
-                <label for="title" class="block text-gray-700 font-medium">Product Title</label>
+                <label for="title" class="block text-gray-700 font-medium">Properties Title</label>
                 <input type="text" id="title" name="title" placeholder="Enter the product title" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <!-- Description Input -->
             <div>
-                <label for="description" class="block text-gray-700 font-medium">Product Description</label>
+                <label for="description" class="block text-gray-700 font-medium">Properties Description</label>
                 <textarea id="description" name="description" placeholder="Enter the product description" rows="4" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
 
@@ -37,7 +37,7 @@
 
             <!-- Image Input -->
             <div>
-                <label for="image" class="block text-gray-700 font-medium">Product Image</label>
+                <label for="image" class="block text-gray-700 font-medium">Properties Image</label>
                 <input type="file" id="image" name="image" accept="image/*" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
             
