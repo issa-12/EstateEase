@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,31 +35,33 @@ class PostController extends Controller
             $post->price = request()->price;
             $post->user_id = Auth::user()->id;
             $post->save();
-            return to_route('show.profile');
+            return to_route('home');
         }
 
     }
 
     public function showBuyPosts()
     {
+        $agents= User::where('type','=','agent')->limit(3)->get();
         if (Auth::check()) {
             $myPosts = Post::where('type', 'sell')->where('user_id', Auth::user()->id)->get();
             $posts = Post::where('type', 'sell')->where('user_id', '!=', Auth::user()->id)->get();
-            return view('post.buyposts', ['myPosts' => $myPosts, 'posts' => $posts]);
+            return view('post.buyposts', ['myPosts' => $myPosts, 'posts' => $posts,'agents'=> $agents]);
         }
         $posts = Post::where('type', 'sell')->get();
-        return view('post.buyposts', ['posts' => $posts]);
+        return view('post.buyposts', ['posts' => $posts,'agents'=> $agents]);
     }
 
     public function showRentPosts()
     {
+        $agents= User::where('type','=','agent')->limit(3)->get();
         if (Auth::check()) {
             $myPosts = Post::where('type', 'rent')->where('user_id', Auth::user()->id)->get();
             $posts = Post::where('type', 'rent')->where('user_id', '!=', Auth::user()->id)->get();
-            return view('post.rentpost', ['myPosts' => $myPosts, 'posts' => $posts]);
+            return view('post.rentpost', ['myPosts' => $myPosts, 'posts' => $posts,'agents'=> $agents]);
         }
         $posts = Post::where('type', 'rent')->get();
-        return view('post.rentpost', ['posts' => $posts]);
+        return view('post.rentpost', ['posts' => $posts,'agents'=> $agents]);
     }
 
     public function showDetail($postId)
@@ -93,12 +96,12 @@ class PostController extends Controller
         $post->price = request()->price;
         $post->user_id = Auth::user()->id;
         $post->save();
-        return to_route('show.profile');
+        return to_route('home');
     }
     public function delete($postId)
     {
         $post = Post::find($postId);
         $post->delete();
-        return to_route('show.profile');
+        return to_route('home');
     }
 }

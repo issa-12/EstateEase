@@ -20,7 +20,7 @@
                             <div class="col-4">
                                 <div class="card">
                                     <div class="card-header bg-primary">
-                                        <h4>Users +1</h4>
+                                        <h4>Users +{{$userCount}}</h4>
                                     </div>
                                     <div class="card-body bg-primary bg-gradient bg-opacity-75 text-dark">
                                         <p class="m-0">New users this month
@@ -35,12 +35,12 @@
                             <div class="col-4">
                                 <div class="card rounded">
                                     <div class="card-header bg-success">
-                                        <h4>Reviews +0</h4>
+                                        <h4>Rates +{{$rateCount}}</h4>
                                     </div>
                                     <div class="card-body bg-success bg-gradient bg-opacity-75 text-dark">
-                                        <p class="m-0">New reviews this month
+                                        <p class="m-0">New rates this month
                                             <a class="stretched-link link-dark"
-                                                href="">
+                                                href="{{route('show.rates.admin')}}">
                                                 more info
                                             </a>
                                         </p>
@@ -50,7 +50,7 @@
                             <div class="col-4">
                                 <div class="card">
                                     <div class="card-header bg-warning">
-                                        <h4>Properties +0</h4>
+                                        <h4>Properties +{{$postCount}}</h4>
                                     </div>
                                     <div class="card-body bg-warning bg-gradient bg-opacity-75 text-dark">
                                         <p class="m-0">New properties this month
@@ -100,16 +100,16 @@
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="d-flex">
-                                            <h5>Reviews</h5>
+                                            <h5>Rates</h5>
                                             <a class="ms-auto btn btn-sm btn-outline-success"
-                                                href="">
+                                                href="{{route('show.rates.admin')}}">
                                                 more</a>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
-                                                <h6>No new reviews this month.</h6>
+                                                <h6>No new rates this month.</h6>
                                             </div>
                                         </div>
                                     </div>

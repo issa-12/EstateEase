@@ -1,14 +1,12 @@
 @extends('layout.navBar')
 
 
-@section('title')
-    Dream Home
-@endsection
+
 
 
 
 @section('search_bar')
-     <div class="relative flex items-center space-x-2">
+    <div class="relative flex items-center space-x-2">
         <form method="get" action="{{route('show.search.home')}}">
             @csrf
             <input type="text" id="search" placeholder="Search..." name="search_name"
@@ -17,7 +15,7 @@
                 class="absolute right-1 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-full">
         </form>
     </div>
-     @endsection
+@endsection
 
 
 
@@ -37,11 +35,12 @@
                 <!-- My Posts Section -->
                 @if (Auth::user()->posts->count())
                     <div>
-                        <h2 class="text-3xl font-bold mb-6 text-gray-800">My Posts</h2>
+                        <h2 class="text-3xl font-bold mb-6 text-gray-800">My Properties</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             <!-- Card 1 -->
                             @foreach ($myPosts as $myPost)
-                                <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300">
+                                <div
+                                    class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300">
                                     <img src="{{asset('../images/posts/' . $myPost->image)}}" alt="Post Image"
                                         class="w-full h-48 object-cover rounded-md mb-4">
                                     <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{$myPost->title}}</h3>
@@ -49,9 +48,9 @@
                                     <p class="text-gray-500 text-sm">{{$myPost->adress}}</p>
                                     <p class="text-blue-500 text-sm mb-2">For: {{$myPost->type}}</p>
                                     <p class="text-green-600 font-semibold text-lg">Price: ${{$myPost->price}}</p>
-                                    <a href="{{route('view.post', $myPost->id)}}" 
-                                       class="inline-block mt-4 px-4 py-2 bg-[#010404] text-white rounded-full hover:bg-blue-700 transition duration-300">
-                                       View Details
+                                    <a href="{{route('view.post', $myPost->id)}}"
+                                        class="inline-block mt-4 px-4 py-2 bg-[#010404] text-white rounded-full hover:bg-blue-700 transition duration-300">
+                                        View Details
                                     </a>
                                 </div>
                             @endforeach
@@ -61,12 +60,13 @@
 
                 <!-- Other Posts Section -->
                 <div>
-                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Other Posts</h2>
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Other Properties</h2>
             @endif
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Card 1 -->
                     @foreach ($posts as $post)
-                        <div class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300">
+                        <div
+                            class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300">
                             <img src="{{asset('../images/posts/' . $post->image)}}" alt="Post Image"
                                 class="w-full h-48 object-cover rounded-md mb-4">
                             <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{$post->title}}</h3>
@@ -74,9 +74,9 @@
                             <p class="text-gray-500 text-sm">{{$post->adress}}</p>
                             <p class="text-blue-500 text-sm mb-2">For: {{$post->type}}</p>
                             <p class="text-green-600 font-semibold text-lg">Price: ${{$post->price}}</p>
-                            <a href="{{route('view.post', $post->id)}}" 
-                               class="inline-block mt-4 px-4 py-2 bg-[#010404] text-white rounded-full hover:bg-blue-700 transition duration-300">
-                               View Details
+                            <a href="{{route('view.post', $post->id)}}"
+                                class="inline-block mt-4 px-4 py-2 bg-[#010404] text-white rounded-full hover:bg-blue-700 transition duration-300">
+                                View Details
                             </a>
                         </div>
                     @endforeach
@@ -86,3 +86,100 @@
         </div>
     </div>
 @endsection
+
+@if (Auth::check() && strcmp(Auth::user()->type, 'agent'))
+    @section('our-agents')
+        <div class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <!-- Heading Section -->
+                <div class="flex justify-center text-center mb-12">
+                    <div class="max-w-3xl mb-8">
+                        <h2 class="font-bold text-3xl text-blue-600 mb-4">
+                            Our Agents
+                        </h2>
+                        <p class="text-gray-600">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
+                            enim pariatur similique debitis vel nisi qui reprehenderit totam?
+                            Quod maiores.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Agents Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach ($agents as $agent)
+                        <div class="group bg-white rounded-lg shadow-lg overflow-hidden h-full">
+                            <img src="{{asset('../images/profiles/' . $agent->profile_picture)}}" alt="Agent"
+                                class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-1">
+                                    <a href="#" class="hover:text-blue-600 transition">{{$agent->name}}</a>
+                                </h3>
+                                <span class="block text-gray-500 mb-4">Real Estate Agent</span>
+                                <p>Average rating: {{number_format($agent->reviews->avg('review'), 2)}}</p>
+                                <a href="{{route('show.agent')}}" class="underline text-blue-600">view agent</a>
+                                @if (Auth::check())
+                                    <button onclick="showRatingForm({{$agent->id}})"
+                                        class="ml-4 text-white bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition">
+                                        Rate
+                                    </button>
+                                @endif
+                                <ul class="flex space-x-4">
+                                    <li><a href="#" class="text-gray-400 hover:text-blue-600 transition">Twitter</a></li>
+                                    <li><a href="#" class="text-gray-400 hover:text-blue-600 transition">Facebook</a></li>
+                                    <li><a href="#" class="text-gray-400 hover:text-blue-600 transition">LinkedIn</a></li>
+                                    <li><a href="#" class="text-gray-400 hover:text-blue-600 transition">Instagram</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Rating Form (Hidden Initially) -->
+                        <div id="ratingForm-{{$agent->id}}"
+                            class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                            <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+                                <p class="text-lg font-semibold mb-4">Review agent</p>
+                                <div class="flex justify-center mb-4" id="starContainer-{{$agent->id}}">
+                                    <span class="text-2xl cursor-pointer" onclick="setRating({{$agent->id}},1)">&#9733;</span>
+                                    <span class="text-2xl cursor-pointer" onclick="setRating({{$agent->id}},2)">&#9733;</span>
+                                    <span class="text-2xl cursor-pointer" onclick="setRating({{$agent->id}},3)">&#9733;</span>
+                                    <span class="text-2xl cursor-pointer" onclick="setRating({{$agent->id}},4)">&#9733;</span>
+                                    <span class="text-2xl cursor-pointer" onclick="setRating({{$agent->id}},5)">&#9733;</span>
+                                </div>
+                                <form method="POST" action="{{route('review.agent', $agent->id)}}">
+                                    @csrf
+                                    <input type="hidden" name="rating" id="ratingValue-{{$agent->id}}">
+                                    <button type="submit"
+                                        class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                                        Confirm
+                                    </button>
+                                </form>
+                                <button onclick="cancelProcess({{$agent->id}})"
+                                    class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+    @endsection
+    <script>
+        function showRatingForm(agentid) {
+            document.getElementById("ratingForm-" + agentid).classList.remove("hidden");
+        }
+
+        function setRating(agentid, rating) {
+            selectedRating = rating;
+            document.getElementById("ratingValue-" + agentid).value = rating;
+            let stars = document.querySelectorAll("#starContainer-" + agentid + " span");
+            stars.forEach((star, index) => {
+                star.style.color = index < rating ? "gold" : "gray";
+            });
+        }
+
+        function cancelProcess(agentid) {
+            document.getElementById("ratingForm-" + agentid).classList.add("hidden");
+        }
+    </script>
+@endif

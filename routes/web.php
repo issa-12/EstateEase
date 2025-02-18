@@ -4,6 +4,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\RateController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckAgent;
@@ -12,18 +14,28 @@ use App\Http\Middleware\CheckEmail;
 use App\Http\Middleware\CheckGuess;
 use App\Http\Middleware\CheckResetPassword;
 use App\Models\Post;
+use App\Models\Rate;
+use App\Models\Review;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     session()->forget(['reset_email', 'code']);
-    $posts = Post::all();
+    $posts = Post::limit(8)->get();
+    $buyCount = Post::where('type','=','sell')->count();
+    $rentCount = Post::where('type','=','rent')->count();
+    $propertiesCount = Post::count();
+    $agentCount=User::where('type','=','agent')->count();
+    $agents=User::where('type','=','agent')->limit(3)->get();
+    $rates= Rate::limit(4)->get();
+
     if (Auth::check()) {
         $homeMyPosts = Post::all()->where('user_id','=', Auth::user()->id);
         $homePosts = Post::all()->where('user_id','!=', Auth::user()->id);
-        return view('home', ['posts' => $homePosts,'myPosts'=> $homeMyPosts]);
+        return view('home', ['posts' => $homePosts,'myPosts'=> $homeMyPosts,'agents'=>$agents]);
     }
-    return view('welcome', ['posts' => $posts]);
+    return view('welcome', ['posts' => $posts,'buyCount'=> $buyCount,'rentCount'=> $rentCount,'propertiesCount'=>$propertiesCount,'agentCount'=>$agentCount,'rates'=> $rates,'agents'=> $agents]);
 })->name('home');
 Route::middleware([CheckGuess::class])->group(function () {
     Route::get('/signup', [AuthController::class, 'showSignup'])->name('show.signup.user');
@@ -54,18 +66,24 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::middleware([CheckAgent::class])->group(function () {
         Route::post('/request_agent',[AgentController::class,'requestAgent'])->name('send.request.agent');
     });
+    Route::post('/rate',[RateController::class,'store'])->name('rate.website');
+    Route::post('/review/{agentId}',[ReviewController::class,'store'])->name('review.agent');
 });
 Route::middleware([CheckAdmin::class])->group(function () {
     Route::get('/dashboard', [AdminController::class,'showDashboard'])->name('show.dashboard.admin');
     Route::get('/dashboard/users', [AdminController::class,'showUsers'])->name('show.users.admin');
     Route::get('/dashboard/agents', [AdminController::class,'showAgents'])->name('show.agents.admin');
     Route::get('/dashboard/properties', [AdminController::class,'showProperties'])->name('show.properties.admin');
+    Route::get('/dashboard/rates', [AdminController::class,'showRates'])->name('show.rates.admin');
+    Route::get('/dashboard/reviews', [AdminController::class,'showReviews'])->name('show.reviews.admin');
     Route::get('/dashboard/request_agents', [AdminController::class,'showRequestAgents'])->name('show.request_agents.admin');
     
     Route::post('/dashboard/request_agents/manage/{id}',[AdminController::class,'manageRequestAdmin'])->name('manage.request.admin');
     
     Route::delete('/dashboard/users/delete/{id}',[AdminController::class,'deleteUser'])->name('delete.user.admin');
     Route::delete('/dashboard/properties/delete/{id}',[AdminController::class,'deleteProperty'])->name('delete.property.admin');
+    Route::delete('/dashboard/rates/delete/{id}',[AdminController::class,'deleteRate'])->name('delete.rate.admin');
+    Route::delete('/dashboard/revies/delete/{id}',[AdminController::class,'deleteReview'])->name('delete.reviews.admin');
     
     
 });
@@ -76,3 +94,17 @@ Route::get('/agents', [AgentController::class, 'showAgents'])->name('show.agent'
 Route::get('/search_home',[SearchController::class,'homeSearch'])->name('show.search.home');
 Route::get('/search_buy',[SearchController::class,'buySearch'])->name('show.search.buy');
 Route::get('/search_rent',[SearchController::class,'rentSearch'])->name('show.search.rent');
+
+
+Route::get('/about', function () {
+    return view('frontend.about');
+})->name('about');
+
+
+Route::get('/contact', function () {
+    return view('frontend.contact');
+})->name('contact');
+
+use App\Http\Controllers\ContactController;
+
+Route::post('/contact/submit', [ContactController::class, 'submit'])->name('contact.submit');

@@ -70,7 +70,7 @@
                     </div>
                 @endif
 
-                <input type="submit" value="confirm email" class="bg-[#5A7794] p-[15px] rounded-lg w-[98%] m-auto text-white font-mono mt-[15px] mb-[15px]">
+                <input type="submit" value="confirm email" class="bg-[#5A7794] hover:cursor-pointer p-[15px] rounded-lg w-[98%] m-auto text-white font-mono mt-[15px] mb-[15px]">
 
                 <div class="flex items-center mt-[7px] mb-[7px]">
                     <div class="flex-grow border-t border-gray-300"></div>

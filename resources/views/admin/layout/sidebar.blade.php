@@ -34,6 +34,8 @@
             <li class="nav-item"><a class="nav-link" href="{{route('show.users.admin')}}">Users</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('show.agents.admin')}}">Agents</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('show.properties.admin')}}">Properties</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('show.rates.admin')}}">Rates</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{route('show.reviews.admin')}}">Reviews</a></li>
             <li class="nav-item"><a class="nav-link" href="{{route('show.request_agents.admin')}}">Request Agents</a></li>
         </ul>
     </div>

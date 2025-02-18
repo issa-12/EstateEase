@@ -16,11 +16,8 @@
 
 
 <body>
-
-
     <a href="{{route('home')}}" class="m-[15px]">
         <i class="fas fa-arrow-left"></i>
-
 
     </a>
 
@@ -46,11 +43,6 @@
                 .form {
                     width: 100%;
                 }
-
-
-
-
-
             }
         </style>
 
@@ -93,7 +85,7 @@
                     </div>
 
                     <input type="submit" name="login" value="Login"
-                        class="bg-[#5A7794] p-[15px] rounded-lg w-[98%] m-auto text-white font-mono">
+                        class="bg-[#5A7794] hover:cursor-pointer p-[15px] rounded-lg w-[98%] m-auto text-white font-mono">
 
 
                     <div class="flex items-center mt-[7px] mb-[7px]">

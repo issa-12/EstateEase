@@ -36,7 +36,7 @@ class AuthController extends Controller
         if (request()->hasFile('file')) {
             $file = request()->file('file');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('../images/profiles/'), $filename);
+            $file->move(public_path('../public/images/profiles/'), $filename);
             $user = User::find(Auth::user()->id);
             $user->profile_picture = $filename;
             $user->save();
@@ -65,17 +65,18 @@ class AuthController extends Controller
         session(['email' => request()->email]);
         session(['password' => request()->password]);
         session(['code' => random_int(100000, 999999)]);
-        Mail::to(session('email'))->send(new CodeMail(session('code')));
+        // Mail::to(session('email'))->send(new CodeMail(session('code')));
         return to_route('confirm.email');
 
     }
     public function storeUser()
     {
         if (request()->has('get_code')) {
-            Mail::to(session('email'))->send(new CodeMail(session('code')));
+            session(['code' => random_int(100000, 999999)]);
+            // Mail::to(session('email'))->send(new CodeMail(session('code')));
             return back();
         }
-        if (!strcmp(session('code'), request()->code)) {
+        // if (!strcmp(session('code'), request()->code)) {
             $user = new User();
             $user->name = session('name');
             $user->email = session('email');
@@ -84,9 +85,9 @@ class AuthController extends Controller
             $user->save();
             Auth::login($user);
             return to_route('home');
-        } else {
-            return back();
-        }
+        // } else {
+        //     return back();
+        // }
 
     }
     public function login()
@@ -138,7 +139,7 @@ class AuthController extends Controller
             'code' => 'required|numeric',
         ]);
         if (!strcmp(session('code'), request()->code)) {
-            session(['can_reset_password'=> true]);
+            session(['can_reset_password' => true]);
             return to_route('show.reset.password');
         } else {
             return back()->withErrors('verification code is incorrect');
@@ -160,7 +161,7 @@ class AuthController extends Controller
             Auth::login($user);
             session()->forget('can_reset_password');
             return to_route('home');
-        }else{
+        } else {
             return back()->withErrors('user not found');
         }
     }

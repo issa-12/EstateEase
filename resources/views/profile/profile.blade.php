@@ -1,144 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile Page</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Profile Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body class="bg-gray-100">
-  <!-- Top Bar -->
-  <form action="" method="post" enctype="multipart/form-data" id="update_profile" style="display: none">
+<body class="relative flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+  <form method="post" id="updateProfile" action="{{route('update.profile')}}" enctype="multipart/form-data" class="hidden">
     @csrf
-    <input type="file" name="file" id="file" onchange="document.getElementById('update_profile').submit();">
+      <input type="file" name="file" id="chooseFile" onchange="document.getElementById('updateProfile').submit();">
   </form>
-  <form action="{{route('delete.profile')}}" id="delete_prof" method="post">
+  <form method="post" id="deleteProfile" action="{{route('delete.profile')}}" class="hidden">
     @csrf
   </form>
-  
-  <div class="bg-blue-600 text-white p-4 flex items-center justify-between">
-    <!-- Profile info section -->
-    <div class="flex items-center space-x-4">
-      <img id="profile-photo" src="{{asset('../images/profiles/' . Auth::user()->profile_picture)}}" alt="Profile Photo"
-        class="rounded-full w-24 h-24 cursor-pointer object-cover">
-      <div>
-        <h1 class="text-xl font-semibold">{{Auth::user()->name}}</h1>
-        <p class="text-sm">{{Auth::user()->email}}</p>
-        <p class="text-sm">Posts: {{Auth::user()->posts->count()}}</p>
-      </div>
+    <!-- Back Arrow -->
+    <a href="javascript:history.back()" class="absolute top-4 left-4 text-gray-700 hover:text-gray-900">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+    </a>
+    
+    <!-- Profile Picture -->
+    <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-blue-500 mb-6">
+        <img src="{{asset('../images/profiles/'.Auth::user()->profile_picture)}}" alt="Admin User" class="w-full h-full object-cover">
     </div>
-    <!-- Links -->
-    <div class="space-x-4">
-      <a href="{{route('home')}}" class="text-white">Home</a>
-      <a href="{{route('show.addpost')}}" class="text-white">Add Post</a>
-      @if (!strcmp(Auth::user()->type,'admin'))
-      <a target="_blank" href="{{route('show.dashboard.admin')}}" class="text-white">Dashboard</a>
-      @endif
-      
-    </div>
-  </div>
-
-  <!-- Profile Photo Options Popup -->
-  <div id="profile-options" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-    <div class="bg-white p-4 rounded-lg space-y-2">
-      <button id="update-profile" onclick="document.getElementById('file').click()"
-        class="w-full bg-blue-600 text-white py-2 rounded">Update Profile</button>
-      <button id="delete-profile" onclick="document.getElementById('delete_prof').submit()"
-        class="w-full bg-red-600 text-white py-2 rounded">Delete Profile</button>
-      <button id="close-options" class="w-full bg-gray-300 text-black py-2 rounded">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Grid View with Cards -->
-  <div class="p-8">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <!-- Card 1 -->
-      @foreach ($posts as $post)
-      <form style="display: none" action="{{route('delete.post',$post->id)}}" id="delete_post{{$post->id}}" method="post">
-        @csrf
-        @method('delete')
-      </form>
-      <div class="bg-white p-4 rounded-lg shadow-lg">
-      <div class="relative">
-        <!-- Three dots for options -->
-        <button class="absolute top-2 right-2 text-gray-500 text-2xl" onclick="showCardOptions(0)">...</button>
-      </div>
-      <a href="">
-        <img src="{{asset('../images/posts/' . $post->image)}}" alt="Item Photo"
-        class="w-full h-48 object-cover rounded-lg">
-        <h2 class="mt-4 text-lg font-semibold">{{$post->title}}</h2>
-        <p class="text-sm text-gray-600">{{$post->description}}</p>
-        <p class="text-sm mt-2">Address: {{$post->address}}</p>
-        <p class="text-sm mt-1 font-semibold text-green-600">Price: ${{$post->price}}</p>
-        <p class="text-sm mt-1 text-blue-600">For {{$post->type}}</p>
-      </a>
-      </div>
-      <!-- Card Options Popup -->
-      <div id="card-options" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-      <div class="bg-white p-4 rounded-lg space-y-2">
-        <form method="get" action="{{route('show.edit.post',$post->id)}}">
-          @csrf
-          <input type="submit" value="Update" id="update-card" class="w-full bg-blue-600 text-white py-2 rounded">
-        </form>
-        <button id="delete-card" class="w-full bg-red-600 text-white py-2 rounded">Delete</button>
-        <button id="close-card-options" class="w-full bg-gray-300 text-black py-2 rounded">Cancel</button>
-      </div>
-      </div>
-
-      <!-- Delete Confirmation Popup -->
-      <div id="delete-popup" class="hidden fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-      <div class="bg-white p-6 rounded-lg space-y-4 w-96">
-        <h3 class="text-lg font-semibold">Are you sure you want to delete?</h3>
-        <div class="flex space-x-4">
-        <button onclick="document.getElementById('delete_post{{$post->id}}').submit()" id="confirm-delete" class="bg-red-600 text-white py-2 px-4 rounded">Yes, Delete</button>
-        <button id="cancel-delete" class="bg-gray-300 text-black py-2 px-4 rounded">Cancel</button>
+    
+    <!-- Profile Details -->
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg text-center">
+        <h2 class="text-2xl font-semibold text-gray-800">{{Auth::user()->name}}</h2>
+        <p class="text-gray-600 mt-2">{{Auth::user()->email}}</p>
+        <div class="mt-6 space-y-3">
+            <button onclick="showManageOptions()" class="block w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">
+                <i class="fa fa-cog" aria-hidden="true"></i> Manage Profile
+            </button>
+            <a href="http://localhost/Real_Estate_Site-main/public/user/chng-password" 
+               class="block px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
+                <i class="fas fa-key"></i> Change Password
+            </a>
         </div>
-      </div>
-      </div>
-    @endforeach
     </div>
-  </div>
 
+    <!-- Manage Profile Options -->
+    <div id="manageOptions" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
+            <h3 class="text-lg font-semibold">Manage Profile</h3>
+            <div class="mt-4 space-y-3">
+                <a onclick="document.getElementById('chooseFile').click()" class="block px-4 py-2 bg-green-500 cursor-pointer text-white rounded-md hover:bg-green-600 transition">Update Profile</a>
+                <a onclick="document.getElementById('deleteProfile').submit();" class="block px-4 py-2 bg-red-500 cursor-pointer text-white rounded-md hover:bg-red-600 transition">Delete Profile</a>
+                <button onclick="closeManageOptions()" class="block w-full px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition">Cancel</button>
+            </div>
+        </div>
+    </div>
 
-
-  <script>
-    // Toggle profile photo options
-    document.getElementById("profile-photo").addEventListener("click", function () {
-      document.getElementById("profile-options").classList.remove("hidden");
-    });
-
-    document.getElementById("close-options").addEventListener("click", function () {
-      document.getElementById("profile-options").classList.add("hidden");
-    });
-
-    // Handle card options
-    let selectedCard = null;
-    function showCardOptions(cardIndex) {
-      selectedCard = cardIndex;
-      document.getElementById("card-options").classList.remove("hidden");
-    }
-
-    document.getElementById("close-card-options").addEventListener("click", function () {
-      document.getElementById("card-options").classList.add("hidden");
-    });
-
-    document.getElementById("delete-card").addEventListener("click", function () {
-      document.getElementById("card-options").classList.add("hidden");
-      document.getElementById("delete-popup").classList.remove("hidden");
-    });
-
-    document.getElementById("cancel-delete").addEventListener("click", function () {
-      document.getElementById("delete-popup").classList.add("hidden");
-    });
-
-    document.getElementById("confirm-delete").addEventListener("click", function () {
-      // Handle the deletion of the card (remove from the UI or API)
-      console.log(`Deleted card: ${selectedCard}`);
-      document.getElementById("delete-popup").classList.add("hidden");
-    });
-  </script>
+    <script>
+        function showManageOptions() {
+            document.getElementById('manageOptions').classList.remove('hidden');
+        }
+        function closeManageOptions() {
+            document.getElementById('manageOptions').classList.add('hidden');
+        }
+    </script>
 </body>
-
 </html>
