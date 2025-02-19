@@ -43,24 +43,24 @@
                               Details</a>
                               </div>
                             @endforeach --}}
-                            @foreach ($posts as $post)
+                            @foreach ($myPosts as $myPost)
                             <div class="flex-shrink-0 w-[calc(100vw-4rem)] md:w-80 lg:w-[22rem] xl:w-[26rem] ml-4 bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl hover:scale-105 transform">
                                 <!-- Card Content -->
-                                <a href="{{ route('view.post', $post->id) }}" class="block">
-                                    <img src="{{ asset('../images/posts/' . $post->image) }}" alt="Post Image"
+                                <a href="{{ route('view.post', $myPosts->id) }}" class="block">
+                                    <img src="{{ asset('../images/posts/' . $myPosts->image) }}" alt="Post Image"
                                         class="w-full h-64 object-cover rounded-t-lg">
                                 </a>
                                 <div class="p-6">
                                     <!-- Price -->
                                     <div class="text-2xl font-bold text-gray-900 mb-2">
-                                        ${{ $post->price }}
+                                        ${{ $myPosts->price }}
                                     </div>
                 
                                     <!-- Description and Title -->
                                     <div class="mb-4">
-                                        <h3 class="text-lg font-semibold text-gray-800">{{ $post->title }}</h3>
+                                        <h3 class="text-lg font-semibold text-gray-800">{{ $myPosts->title }}</h3>
                                         <p class="text-gray-600 text-sm mt-2">
-                                            {{ Str::limit($post->description, 100) }}
+                                            {{ Str::limit($myPosts->description, 100) }}
                                         </p>
                                     </div>
                 
@@ -85,7 +85,7 @@
                                     </div>
                 
                                     <!-- View Details Button -->
-                                    <a href="{{ route('view.post', $post->id) }}"
+                                    <a href="{{ route('view.post', $myPosts->id) }}"
                                         class="inline-block mt-4 px-4 py-2 bg-blue-600 w-full text-white rounded-full hover:bg-blue-700 transition duration-300 text-center">
                                         View Details
                                     </a>
