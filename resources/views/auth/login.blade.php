@@ -87,7 +87,7 @@
                     <input type="submit" name="login" value="Login"
                         class="bg-[#5A7794] hover:cursor-pointer p-[15px] rounded-lg w-[98%] m-auto text-white font-mono">
 
-
+                
                     <div class="flex items-center mt-[7px] mb-[7px]">
                         <div class="flex-grow border-t border-gray-300"></div>
                         <span class="px-4 text-gray-500">Or login with</span>

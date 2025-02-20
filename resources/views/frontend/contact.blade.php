@@ -43,7 +43,7 @@
                         class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2"></textarea>
                 </div>
                 <div class="text-center">
-                <button type="submit" class="text-white font-semibold text-lg shadow-lg bg-[#3052dc] rounded-full px-6 py-3 hover:bg-blue-700 transition duration-300">
+                <button type="submit" name="send" class="text-white font-semibold text-lg shadow-lg bg-[#3052dc] rounded-full px-6 py-3 hover:bg-blue-700 transition duration-300">
                     Send Message
                 </button>
                 </div>

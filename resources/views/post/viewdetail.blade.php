@@ -79,6 +79,10 @@
                                 class="w-full py-2 bg-gray-200 text-black rounded-lg hover:bg-gray-300 transition">
                                 Pay with Cash
                             </button>
+                            <button onclick="cancelProcess()"
+                                class="w-full py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                                Cancel
+                            </button>
                         </div>
 
                         <!-- Final Options -->

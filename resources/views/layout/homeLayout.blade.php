@@ -38,22 +38,6 @@
                         <h2 class="text-3xl font-bold mb-6 text-gray-800">My Properties</h2>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             <!-- Card 1 -->
-                            {{-- @foreach ($myPosts as $myPost)
-                                <div
-                                    class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300">
-                                    <img src="{{asset('../images/posts/' . $myPost->image)}}" alt="Post Image"
-                                        class="w-full h-48 object-cover rounded-md mb-4">
-                                    <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{$myPost->title}}</h3>
-                                    <p class="text-gray-600 mb-2">{{ Str::limit($myPost->description, 100) }}</p>
-                                    <p class="text-gray-500 text-sm">{{$myPost->adress}}</p>
-                                    <p class="text-blue-500 text-sm mb-2">For: {{$myPost->type}}</p>
-                                    <p class="text-green-600 font-semibold text-lg">Price: ${{$myPost->price}}</p>
-                                    <a href="{{route('view.post', $myPost->id)}}"
-                                        class="inline-block mt-4 px-4 py-2 bg-[#010404] text-white rounded-full hover:bg-blue-700 transition duration-300">
-                                        View Details
-                                    </a>
-                                </div>
-                            @endforeach --}}
                             @foreach ($myPosts as $myPost)
                             <div class="flex-shrink-0 w-[calc(100vw-4rem)] md:w-80 lg:w-[22rem] xl:w-[26rem] ml-4 bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl hover:scale-105 transform">
                                 <!-- Card Content -->
@@ -71,7 +55,7 @@
                                     <div class="mb-4">
                                         <h3 class="text-lg font-semibold text-gray-800">{{ $myPost->title }}</h3>
                                         <p class="text-gray-600 text-sm mt-2">
-                                            {{ Str::limit($myPost->description, 100) }}
+                                            {{ $myPost->address }}
                                         </p>
                                     </div>
                 
@@ -83,7 +67,7 @@
                                                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
                                                 </path>
                                             </svg>
-                                            <span>2 beds</span>
+                                            <span>{{$myPost->beds}} beds</span>
                                         </div>
                                         <div class="flex items-center">
                                             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +75,7 @@
                                                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                                                 </path>
                                             </svg>
-                                            <span>2 baths</span>
+                                            <span>{{$myPost->baths}} baths</span>
                                         </div>
                                     </div>
                 
@@ -113,22 +97,6 @@
             @endif
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Card 1 -->
-                    {{-- @foreach ($posts as $post)
-                        <div
-                            class="bg-white p-4 rounded-lg shadow-md hover:shadow-xl transform hover:scale-105 transition duration-300">
-                            <img src="{{asset('../images/posts/' . $post->image)}}" alt="Post Image"
-                                class="w-full h-48 object-cover rounded-md mb-4">
-                            <h3 class="text-2xl font-semibold text-gray-800 mb-2">{{$post->title}}</h3>
-                            <p class="text-gray-600 mb-2">{{ Str::limit($post->description, 100) }}</p>
-                            <p class="text-gray-500 text-sm">{{$post->adress}}</p>
-                            <p class="text-blue-500 text-sm mb-2">For: {{$post->type}}</p>
-                            <p class="text-green-600 font-semibold text-lg">Price: ${{$post->price}}</p>
-                            <a href="{{route('view.post', $post->id)}}"
-                                class="inline-block mt-4 px-4 py-2 bg-[#010404] text-white rounded-full hover:bg-blue-700 transition duration-300">
-                                View Details
-                            </a>
-                        </div>
-                    @endforeach --}}
                     @foreach ($posts as $post)
                     <div class="flex-shrink-0 w-[calc(100vw-4rem)] md:w-80 lg:w-[22rem] xl:w-[26rem] ml-4 bg-white rounded-lg shadow-md overflow-hidden transition-shadow duration-300 hover:shadow-xl hover:scale-105 transform">
                         <!-- Card Content -->
@@ -146,7 +114,7 @@
                             <div class="mb-4">
                                 <h3 class="text-lg font-semibold text-gray-800">{{ $post->title }}</h3>
                                 <p class="text-gray-600 text-sm mt-2">
-                                    {{ Str::limit($post->description, 100) }}
+                                    {{ $post->address }}
                                 </p>
                             </div>
         
@@ -158,7 +126,7 @@
                                             d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
                                         </path>
                                     </svg>
-                                    <span>2 beds</span>
+                                    <span>{{$post->beds}} beds</span>
                                 </div>
                                 <div class="flex items-center">
                                     <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,7 +134,7 @@
                                             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
                                         </path>
                                     </svg>
-                                    <span>2 baths</span>
+                                    <span>{{$post->baths}} baths</span>
                                 </div>
                             </div>
         

@@ -16,11 +16,13 @@ class PostController extends Controller
     public function store()
     {
         request()->validate([
-            'title' => 'required|min:5|max:20',
+            'title' => 'required|min:5',
             'description' => 'required|max:250',
             'address' => 'required',
-            'image' => 'required|file|mimes:jpg,jpeg,png',
+            'image' => 'required|file|mimes:jpg,jpeg,png,avif',
             'price' => 'required|numeric',
+            'bedrooms' => 'required',
+            'bathrooms'=>'required',
         ]);
         if (request()->hasFile('image')) {
             $image = request()->file('image');
@@ -32,6 +34,8 @@ class PostController extends Controller
             $post->address = request()->address;
             $post->type = request()->type;
             $post->image = $imageName;
+            $post->beds = request()->bedrooms;
+            $post->baths = request()->bathrooms;
             $post->price = request()->price;
             $post->user_id = Auth::user()->id;
             $post->save();
@@ -82,6 +86,9 @@ class PostController extends Controller
             'description' => 'required|max:250',
             'address' => 'required',
             'image' => 'file|mimes:jpg,jpeg,png',
+            'price' => 'required|numeric',
+            'bedrooms' => 'required',
+            'bathrooms'=>'required',
         ]);
         if (request()->hasFile('image')) {
             $image = request()->file('image');
@@ -95,6 +102,8 @@ class PostController extends Controller
         $post->type = request()->type;
         $post->price = request()->price;
         $post->user_id = Auth::user()->id;
+        $post->beds=request()->bedrooms;
+        $post->baths=request()->bathrooms;
         $post->save();
         return to_route('home');
     }

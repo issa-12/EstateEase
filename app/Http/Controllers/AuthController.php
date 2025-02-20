@@ -104,8 +104,10 @@ class AuthController extends Controller
                 Auth::login($user);
                 return to_route('home');
             } else {
-                return back();
+                return back()->withErrors('password is incorrect');
             }
+        }else{
+            return back()->withErrors('user not found');
         }
 
     }

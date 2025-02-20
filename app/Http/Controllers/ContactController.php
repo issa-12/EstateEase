@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdminMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ContactMessage;
+use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
@@ -13,14 +15,12 @@ class ContactController extends Controller
         // Validate the form data
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
             'message' => 'required|string',
         ]);
-
-        // Example: Store message in the session (you can save it to the database instead)
-        session()->flash('success', 'Your message has been sent successfully!');
-
-        // Redirect back to the contact page
+        $name=request()->name;
+        $message=request()->message;
+        Mail::to(env('MAIL_USERNAME'))->send(new AdminMail($name,$message));
         return redirect()->route('contact');
     }
 }
+

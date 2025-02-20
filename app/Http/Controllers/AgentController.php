@@ -18,6 +18,11 @@ class AgentController extends Controller
         }
         return view('agent.allAgents', ['agents' => $agents]);
     }
+
+    public function showAget($id){
+        $agent = User::find($id);
+        return view('agent.detailAgent',['agent'=>$agent]);
+    }
     public function requestAgent()
     {
         if (!strcmp(Auth::user()->type, 'user')) {

@@ -10,6 +10,8 @@
                 <th>Description</th>
                 <th>Image name</th>
                 <th>Address</th>
+                <th>Bedrooms</th>
+                <th>Bathrooms</th>
                 <th>Price</th>
                 <th>type</th>
                 <th>Action</th>
@@ -24,6 +26,8 @@
                     <td>{{ $property->description }}</td>
                     <td>{{ $property->image }}</td>
                     <td>{{ $property->address }}</td>
+                    <td>{{ $property->beds }}</td>
+                    <td>{{ $property->baths }}</td>
                     <td>{{ $property->price }}</td>
                     <td>{{ $property->type }}</td>
                     <td>

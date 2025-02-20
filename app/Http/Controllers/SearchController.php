@@ -15,17 +15,14 @@ class SearchController extends Controller
         }
         if (Auth::check()) {
             $myPosts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
-                ->where("user_id", Auth::user()->id)
+                ->where("user_id",'=', Auth::user()->id)
                 ->get();
             $posts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where('user_id','!=', Auth::user()->id)
                 ->get();
             return view("home", ['posts'=>$posts,'myPosts' => $myPosts]);
         }
         $posts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->get();
         return view("home", ['posts'=>$posts]);
     }
@@ -37,19 +34,16 @@ class SearchController extends Controller
         }
         if (Auth::check()) {
             $myPosts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where('type','=','sell')
                 ->where("user_id", Auth::user()->id)
                 ->get();
             $posts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where('type','=','sell')
                 ->where('user_id','!=', Auth::user()->id)
                 ->get();
             return view('post.buyposts', ['posts'=>$posts,'myPosts' => $myPosts]);
         }
         $posts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where('type','=','sell')
                 ->get();
             return view('post.buyposts', ['posts'=>$posts]);
@@ -62,19 +56,16 @@ class SearchController extends Controller
         }
         if (Auth::check()) {
             $myPosts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where("user_id",'=', Auth::user()->id)
                 ->where('type','=','rent')
                 ->get();
             $posts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where('user_id','!=', Auth::user()->id)
                 ->where('type','=','rent')
                 ->get();
             return view('post.rentpost', ['posts'=>$posts,'myPosts' => $myPosts]);
         }
         $posts = Post::where("address", "like", "%$name%")
-                ->orWhere("title", "like", "%$name%")
                 ->where('type','=','rent')
                 ->get();
             return view('post.rentpost', ['posts'=>$posts]);
