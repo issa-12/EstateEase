@@ -61,7 +61,7 @@ Route::middleware([CheckAuth::class])->group(function () {
     Route::get('/profile/addpost', [PostController::class, 'showAddPost'])->name('show.addpost');
     Route::post('/profile/addpost', [PostController::class, 'store'])->name('store.post');
     Route::get('/profile/edit/{id}', [PostController::class, 'showEdit'])->name('show.edit.post');
-    Route::put('/profile/update/{id}', [PostController::class, 'edit'])->name('edit.post');
+    Route::post('/profile/update/{id}', [PostController::class, 'edit'])->name('edit.post');
     Route::delete('/profile/delete/{id}', [PostController::class, 'delete'])->name('delete.post');
     Route::middleware([CheckAgent::class])->group(function () {
         Route::post('/request_agent', [AgentController::class, 'requestAgent'])->name('send.request.agent');

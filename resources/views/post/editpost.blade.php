@@ -17,26 +17,26 @@
         <h1 class="text-3xl font-bold text-gray-800 text-center">Post Your Properties</h1>
 
         <!-- Product Form -->
-        <form action="{{route('edit.post')}}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{route('edit.post',$post->id)}}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             <!-- Title Input -->
             <div>
                 <label for="title" class="block text-gray-700 font-medium">Properties Title</label>
-                <input type="text" id="title" name="title" placeholder="Enter the product title"
+                <input type="text" id="title" name="title" value="{{$post->title}}" placeholder="Enter the product title"
                     class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <!-- Description Input -->
             <div>
                 <label for="description" class="block text-gray-700 font-medium">Properties Description</label>
-                <textarea id="description" name="description" placeholder="Enter the product description" rows="4"
-                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                <textarea id="description" name="description"  placeholder="Enter the product description" rows="4"
+                    class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{$post->description}}</textarea>
             </div>
 
             <!-- Address Input -->
             <div>
                 <label for="address" class="block text-gray-700 font-medium">Address</label>
-                <input type="text" id="address" name="address" placeholder="Enter the location"
+                <input type="text" id="address" name="address" value="{{$post->address}}" placeholder="Enter the location"
                     class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
@@ -50,21 +50,21 @@
             <!-- Bedrooms Input -->
             <div>
                 <label for="bedrooms" class="block text-gray-700 font-medium">Number of Bedrooms(default 1)</label>
-                <input type="number" id="bedrooms" name="bedrooms" min="1" value="1" step="1"
+                <input type="number" id="bedrooms"  name="bedrooms" min="1" value="{{$post->beds}}" step="1"
                     class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <!-- Bathrooms Input -->
             <div>
                 <label for="bathrooms" class="block text-gray-700 font-medium">Number of Bedrooms(default 1)</label>
-                <input type="number" id="bathrooms" name="bathrooms" min="1" value="1" step="1"
+                <input type="number" id="bathrooms" name="bathrooms" min="1" value="{{$post->baths}}" step="1"
                     class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
             <!-- Price Input -->
             <div>
                 <label for="price" class="block text-gray-700 font-medium">Price</label>
-                <input type="number" id="price" name="price" placeholder="Enter the price"
+                <input type="number" id="price" name="price" value="{{$post->price}}" placeholder="Enter the price"
                     class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
 
@@ -73,12 +73,16 @@
                 <label for="type" class="block text-gray-700 font-medium">Type</label>
                 <div class="flex space-x-4">
                     <label class="inline-flex items-center">
-                        <input checked type="radio" id="for_sale" name="type" value="sell"
+                        <input @if ($post->type == 'sell') 
+                            checked
+                        @endif type="radio" id="for_sale" name="type" value="sell"
                             class="form-radio text-blue-500 focus:ring-blue-500">
                         <span class="ml-2 text-gray-700">For Sale</span>
                     </label>
                     <label class="inline-flex items-center">
-                        <input type="radio" id="for_rent" name="type" value="rent"
+                        <input type="radio" id="for_rent" @if ($post->type == 'rent') 
+                        checked
+                    @endif  name="type" value="rent"
                             class="form-radio text-blue-500 focus:ring-blue-500">
                         <span class="ml-2 text-gray-700">For Rent</span>
                     </label>

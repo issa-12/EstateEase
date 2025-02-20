@@ -65,7 +65,7 @@ class AuthController extends Controller
         session(['email' => request()->email]);
         session(['password' => request()->password]);
         session(['code' => random_int(100000, 999999)]);
-        // Mail::to(session('email'))->send(new CodeMail(session('code')));
+        Mail::to(session('email'))->send(new CodeMail(session('code')));
         return to_route('confirm.email');
 
     }
@@ -73,10 +73,10 @@ class AuthController extends Controller
     {
         if (request()->has('get_code')) {
             session(['code' => random_int(100000, 999999)]);
-            // Mail::to(session('email'))->send(new CodeMail(session('code')));
+            Mail::to(session('email'))->send(new CodeMail(session('code')));
             return back();
         }
-        // if (!strcmp(session('code'), request()->code)) {
+        if (!strcmp(session('code'), request()->code)) {
             $user = new User();
             $user->name = session('name');
             $user->email = session('email');
@@ -85,9 +85,9 @@ class AuthController extends Controller
             $user->save();
             Auth::login($user);
             return to_route('home');
-        // } else {
-        //     return back();
-        // }
+        } else {
+            return back();
+        }
 
     }
     public function login()
