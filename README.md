@@ -20,7 +20,7 @@ EstateEase is a feature-rich real estate listing platform built with **Laravel**
 - **Database:** MySQL
 - **Authentication:** Laravel
 - **Version Control:** Git & GitHub
-- **Third-Party Integrations:** Gmail
+- **Third-Party Integrations:** Gmail SMTP
 
 ## 📂 Project Structure
 ```
