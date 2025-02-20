@@ -113,7 +113,7 @@ We welcome contributions! Follow these steps:
 This project is licensed under the **MIT License**.
 
 ## 📞 Contact
-For any inquiries, reach out to **[Your Name]** at [issaalayan2017@gmail.com].
+For any inquiries, reach out to **Issa Alayan** at [issaalayan2017@gmail.com].
 
 ---
 ### ⭐ Show Some Support
